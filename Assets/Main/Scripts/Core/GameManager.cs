@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Main.Scripts.Config;
 using Main.Scripts.Game.EventHandler;
 
 namespace Main.Scripts.Core
@@ -12,6 +14,8 @@ namespace Main.Scripts.Core
             Pause,
             Quit
         }
+
+        public List<LevelConfig> LevelConfigs = new List<LevelConfig>();
         public GameEventHandler EventHandler;
         public State GameState { get; private set; }
         
