@@ -18,7 +18,6 @@ public class CameraController : MonoBehaviour
     public float bufferTime = 0.2f;
     public float maxMouseDeltaMagnitude = 10f;
     public float decelerationDuration = 0.5f;
-    public LayerMask raycastLayerMask;
 
     private float currentZoom = 5f;
     private Vector3 initialPosition;

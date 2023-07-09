@@ -1,9 +1,7 @@
 using System;
-using Main.Scripts.Game.MatchableObject;
-using Main.Scripts.Util;
 using UnityEngine;
 
-namespace Main.Scripts.Game.Input
+namespace Main.Scripts.Input
 {
     public interface IInputHandler
     {
@@ -15,16 +13,15 @@ namespace Main.Scripts.Game.Input
         Camera Camera { get; }
         TSelectedObject SelectedObject { get; set; }
         event Action<TSelectedObject> OnObjectDown;
-        event Action<TSelectedObject> OnObjectDrag;
         event Action OnObjectUp;
         void Raycast();
     }
-    public class RaycastObjectSelector : IRaycastHandler<MatchableObjectBase>
+    public class RaycastObjectSelector<TSelectedObject> : IRaycastHandler<TSelectedObject> where TSelectedObject : MonoBehaviour
     {
         public Camera Camera { get; }
-        public MatchableObjectBase SelectedObject { get; set; }
-        public event Action<MatchableObjectBase> OnObjectDown;
-        public event Action<MatchableObjectBase> OnObjectDrag;
+        private string LayerName { get; }
+        public TSelectedObject SelectedObject { get; set; }
+        public event Action<TSelectedObject> OnObjectDown;
         public event Action OnObjectUp;
         
 
@@ -32,9 +29,10 @@ namespace Main.Scripts.Game.Input
         {
             
         }
-        public RaycastObjectSelector(Camera cam)
+        public RaycastObjectSelector(Camera cam, string layer)
         {
             Camera = cam;
+            LayerName = layer;
         }
 
         public void Update()
@@ -53,7 +51,7 @@ namespace Main.Scripts.Game.Input
         public void Raycast()
         {
             var mousePos = Camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-            var layer = LayerMask.NameToLayer(Constants.k_layer_matchable_object);
+            var layer = LayerMask.NameToLayer(LayerName);
             var hit = Physics2D.Raycast(mousePos, Vector2.zero, 1000,
                 1 << layer);
 
@@ -62,7 +60,7 @@ namespace Main.Scripts.Game.Input
                 return;
             }
             
-            if (!hit.rigidbody.TryGetComponent<MatchableObjectBase>(out var selectedObject))
+            if (!hit.rigidbody.TryGetComponent<TSelectedObject>(out var selectedObject))
             {
                 return;
             }

@@ -4,10 +4,11 @@ using Main.Scripts.Game.EventHandler;
 using Main.Scripts.Game.MatchableObject;
 using UnityEngine;
 
-namespace Main.Scripts.Game.Input
+namespace Main.Scripts.Input
 {
     public class ObjectMovementController : MonoSingleton<ObjectMovementController>
     {
+        [SerializeField] private string _layerName;
         private IRaycastHandler<MatchableObjectBase> _inputHandler;
 
         private Camera _cam;
@@ -17,9 +18,8 @@ namespace Main.Scripts.Game.Input
         public override void Init()
         {
             base.Init();
-            _inputHandler = new RaycastObjectSelector(Camera.main);
+            _inputHandler = new RaycastObjectSelector<MatchableObjectBase>(Camera.main,_layerName);
             _inputHandler.OnObjectDown += InputHandlerOnOnObjectDown;
-            _inputHandler.OnObjectDrag += InputHandlerOnOnObjectDrag;
             _inputHandler.OnObjectUp += InputHandlerOnOnObjectUp;
             _boardHandler = BoardHandler.Instance;
             _cam = Camera.main;
@@ -30,7 +30,6 @@ namespace Main.Scripts.Game.Input
             base.Dispose();
             
             _inputHandler.OnObjectDown -= InputHandlerOnOnObjectDown;
-            _inputHandler.OnObjectDrag -= InputHandlerOnOnObjectDrag;
             _inputHandler.OnObjectUp -= InputHandlerOnOnObjectUp;
             _inputHandler = null;
             _boardHandler = null;
@@ -41,12 +40,6 @@ namespace Main.Scripts.Game.Input
         {
             obj.OnSelect();
             GameManager.Instance.EventHandler.Notify(GameEvent.OnTapItem, obj);
-        }
-
-        private void InputHandlerOnOnObjectDrag(MatchableObjectBase obj)
-        {
-            obj.ObjectState = MatchableObjectBase.State.Dragging;
-            GameManager.Instance.EventHandler.Notify(GameEvent.OnDragItem, obj);
         }
 
         private void InputHandlerOnOnObjectUp()
