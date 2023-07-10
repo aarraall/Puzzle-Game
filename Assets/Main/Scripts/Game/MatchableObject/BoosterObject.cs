@@ -18,13 +18,17 @@ namespace Main.Scripts.Game.MatchableObject
             _view.DOKill();
             var viewTransform = _view.transform;
             _initialScale = viewTransform.localScale;
-            viewTransform.localScale = Vector3.zero; 
+            viewTransform.localScale = Vector3.zero;
+            
+
+            SpriteRenderer.sortingOrder = 10;
             
             var whoopSequence = DOTween.Sequence();
             whoopSequence.Append(transform.DOMove(centerTilePos, 1).SetEase(Ease.InOutBack))
                 .Insert(0,_view.DOScale(_initialScale, 1).SetEase(Ease.InOutBack))
                 .AppendCallback(() => ObjectState = State.Idle)
-                .AppendCallback(() => onComplete?.Invoke());
+                .AppendCallback(() => onComplete?.Invoke())
+                .AppendCallback(() => SpriteRenderer.sortingOrder = _initialSortOrder);
         }
 
         public override void OnSelect()
