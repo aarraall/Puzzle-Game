@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Config_Booster
   m_EditorClassIdentifier: 
   MatchableObjects:
-  - {fileID: 3728479141305691632, guid: eda503e6e4a38430b9c6935ed45156be, type: 3}
+  - {fileID: 2519624177411868112, guid: eda503e6e4a38430b9c6935ed45156be, type: 3}
