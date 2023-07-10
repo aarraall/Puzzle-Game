@@ -29,32 +29,10 @@ namespace Main.Scripts.Board
             
             _cam = Camera.main;
             
-            //Subscribe();
-            
             //Initialize map here, create items if needed
             CreateMatchableObjectPositionMap();
         }
 
-        protected override void Dispose()
-        {
-            base.Dispose();
-            
-            //Unsubscribe();
-        }
-        
-        public void Subscribe()
-        {
-            GameManager.Instance.EventHandler.Subscribe(GameEvent.OnTapItem, OnObjectTap);
-            GameManager.Instance.EventHandler.Subscribe(GameEvent.OnDragItem, OnObjectHold);
-            GameManager.Instance.EventHandler.Subscribe(GameEvent.OnReleaseItem, OnObjectRelease);
-        }
-
-        public void Unsubscribe()
-        {
-            GameManager.Instance.EventHandler.Unsubscribe(GameEvent.OnTapItem, OnObjectTap);
-            GameManager.Instance.EventHandler.Unsubscribe(GameEvent.OnDragItem, OnObjectHold);
-            GameManager.Instance.EventHandler.Unsubscribe(GameEvent.OnReleaseItem, OnObjectRelease);
-        }
 
 
         private void CreateMatchableObjectPositionMap()
@@ -83,27 +61,6 @@ namespace Main.Scripts.Board
                 MatchableObjectPositionMap[cellPos] = objectBase;
 
             }
-        }
-
-
-        public void OnObjectTap(object eventData)
-        {
-            
-        }
-
-        public void OnObjectHold(object eventData)
-        {
-            
-        }
-
-        public void OnObjectRelease(object eventData)
-        {
-            
-        }
-
-        public void StartMatch(MatchableObjectBase matchOrigin)
-        {
-            
         }
 
         public void OnMatchableObjectChangeTile(Vector3Int targetTilePos, MatchableObjectBase movingObject)
@@ -160,7 +117,7 @@ namespace Main.Scripts.Board
             MatchableObjectPositionMap[residentObject.CurrentTilePos] = null;
             MatchableObjectPositionMap[movingObject.CurrentTilePos] = null;
             
-            GameManager.Instance.EventHandler.Notify(GameEvent.OnMergeItem, movingObject);
+            GameManager.EventHandler.Notify(GameEvent.OnMergeItem, movingObject);
 
             
             Destroy(residentObject.gameObject);
@@ -240,7 +197,7 @@ namespace Main.Scripts.Board
             objectInstance.MergeOut(tilePos);
             MatchableObjectPositionMap[tilePos] = objectInstance;
             objectInstance.CurrentTilePos = tilePos;
-            GameManager.Instance.EventHandler.Notify(GameEvent.OnCreateItem, objectInstance);
+            GameManager.EventHandler.Notify(GameEvent.OnCreateItem, objectInstance);
         }
 
         public void CreateNewBooster(BoosterObject objectPrefab, Vector2 startPos)

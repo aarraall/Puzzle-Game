@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Main.Scripts.Util.Generics
 {
-    public abstract class EventHandler<T> where T : Enum
+    public class EventHandler<T> where T : Enum
     {
         private Dictionary<T, Action<object>> _subscriberMap = new();
 

@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using Main.Scripts.Core;
 using Main.Scripts.EventHandler;
@@ -10,7 +11,12 @@ namespace Main.Scripts.UI
         public GameObject PopupGameObject;
         private void Awake()
         {
-            GameManager.Instance.EventHandler.Subscribe(GameEvent.OnQuest7Reached, OnLevelFinished);
+            GameManager.EventHandler.Subscribe(GameEvent.OnQuest7Reached, OnLevelFinished);
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.EventHandler.Unsubscribe(GameEvent.OnQuest7Reached, OnLevelFinished);
         }
 
         private void OnLevelFinished(object obj)
@@ -19,6 +25,8 @@ namespace Main.Scripts.UI
             DOTween.Sequence().Append(PopupGameObject.transform.DOMoveX(0, 1f).SetEase(Ease.InOutBack))
                 .Append(PopupGameObject.transform.DOScale(Vector3.one * .8f, .5f))
                 .Append(PopupGameObject.transform.DOScale(Vector3.one, .5f));
+            
+            GameManager.EventHandler.Unsubscribe(GameEvent.OnQuest7Reached, OnLevelFinished);
         }
 
 

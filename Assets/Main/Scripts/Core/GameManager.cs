@@ -16,7 +16,7 @@ namespace Main.Scripts.Core
             Finish,
         }
 
-        public GameEventHandler EventHandler;
+        public static EventHandler<GameEvent> EventHandler;
         public State GameState { get; private set; }
         
         
@@ -27,12 +27,6 @@ namespace Main.Scripts.Core
             SetState(State.Loading);
             
             EventHandler.Subscribe(GameEvent.OnQuest7Reached, OnLastQuestReached);
-        }
-
-        protected override void Dispose()
-        {
-            EventHandler.Unsubscribe(GameEvent.OnQuest7Reached, OnLastQuestReached);
-            base.Dispose();
         }
 
         public void SetState(State state)
@@ -55,7 +49,7 @@ namespace Main.Scripts.Core
             }
         }
 
-        [Button("Finisj")]
+        [Button("Finish")]
         public void SetFinish()
         {
             SetState(State.Finish);
@@ -104,7 +98,7 @@ namespace Main.Scripts.Core
 
         private void OnDestroy()
         {
-            EventHandler = null;
+            EventHandler?.Unsubscribe(GameEvent.OnQuest7Reached, OnLastQuestReached);
         }
 
         private void Reset()

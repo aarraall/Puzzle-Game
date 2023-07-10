@@ -31,18 +31,13 @@ namespace Main.Scripts.UI
         public override void StartQuest()
         {
             base.StartQuest();
-            GameManager.Instance.EventHandler.Subscribe(GameEvent.OnMergeItem, OnMerge);
+            GameManager.EventHandler.Subscribe(GameEvent.OnMergeItem, OnMerge);
         }
 
 
         private void OnDestroy()
         {
-            if (GameManager.Instance == null || GameManager.Instance.EventHandler == null)
-            {
-                return;
-            }
-
-            GameManager.Instance.EventHandler.Unsubscribe(GameEvent.OnMergeItem, OnMerge);
+            GameManager.EventHandler.Unsubscribe(GameEvent.OnMergeItem, OnMerge);
         }
 
         private void OnMerge(object obj)
@@ -67,7 +62,7 @@ namespace Main.Scripts.UI
             }
             
             SuccessImg.gameObject.SetActive(true);
-            GameManager.Instance.EventHandler.Notify(QuestData.OnDoneEvent);
+            GameManager.EventHandler.Notify(QuestData.OnDoneEvent);
             
             OnQuestEnd();
         }

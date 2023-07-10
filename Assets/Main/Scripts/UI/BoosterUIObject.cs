@@ -24,7 +24,7 @@ namespace Main.Scripts.UI
             _board.CreateNewBooster(_boosterSample, UnityEngine.Input.mousePosition);
             ChargeAmount--;
             
-            GameManager.Instance.EventHandler.Notify(GameEvent.OnUseItem, _boosterSample);
+            GameManager.EventHandler.Notify(GameEvent.OnUseItem, _boosterSample);
 
             if (ChargeAmount <= 0)
             {

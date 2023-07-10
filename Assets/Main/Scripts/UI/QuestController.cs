@@ -33,7 +33,7 @@ public abstract class QuestController : MonoBehaviour
 
     public virtual void OnQuestEnd()
     {
-        GameManager.Instance.EventHandler.Notify(GameEvent.OnQuestDone);
+        GameManager.EventHandler.Notify(GameEvent.OnQuestDone);
     }
   
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Main.Scripts.Core;
@@ -26,7 +27,12 @@ namespace Main.Scripts.Quest_System
             base.Init();
             CreateQuestViews();
             StartNextQuest();
-            GameManager.Instance.EventHandler.Subscribe(GameEvent.OnQuestDone, OnQuestDone);
+            GameManager.EventHandler.Subscribe(GameEvent.OnQuestDone, OnQuestDone);
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.EventHandler.Unsubscribe(GameEvent.OnQuestDone, OnQuestDone);
         }
 
         private void CreateQuestViews()
@@ -141,15 +147,15 @@ namespace Main.Scripts.Quest_System
             {
                 case QuestData.Type.Merge:
                     var collectController = CurrentQuestController as CollectibleQuestController;
-                    GameManager.Instance.EventHandler.Notify(collectController.QuestData.OnDoneEvent);
+                    GameManager.EventHandler.Notify(collectController.QuestData.OnDoneEvent);
                     break;
                 case QuestData.Type.Use :
                     var useController = CurrentQuestController as UseQuestController;
-                    GameManager.Instance.EventHandler.Notify(useController.QuestData.OnDoneEvent);
+                    GameManager.EventHandler.Notify(useController.QuestData.OnDoneEvent);
                     break; 
                 case QuestData.Type.Create :
                     var buildController = CurrentQuestController as BuildQuestController;
-                    GameManager.Instance.EventHandler.Notify(buildController.QuestData.OnDoneEvent);
+                    GameManager.EventHandler.Notify(buildController.QuestData.OnDoneEvent);
                     break;
             }
         }
