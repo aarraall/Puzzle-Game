@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95cf67f5991cf4aae9ff9fe3a8392a20, type: 3}
-  m_Name: Config_Home
+  m_Script: {fileID: 11500000, guid: dec5ce6e648674ad8818d11eaee9992e, type: 3}
+  m_Name: Config_Booster
   m_EditorClassIdentifier: 
-  Data:
-  - PhaseIndex: 0
-    PhaseState: 0
+  MatchableObjects:
+  - {fileID: 3728479141305691632, guid: eda503e6e4a38430b9c6935ed45156be, type: 3}

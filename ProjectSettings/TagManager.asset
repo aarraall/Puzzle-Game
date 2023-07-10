@@ -12,8 +12,8 @@ TagManager:
   - Water
   - UI
   - home_interactable
-  - 
-  - 
+  - level_interactable
+  - booster
   - 
   - 
   - 
@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: home_sprite
+  - name: level_sprite
     uniqueID: 1209118783
+    locked: 0
+  - name: sprite_canvas
+    uniqueID: 2563278967
     locked: 0

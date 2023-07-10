@@ -1,7 +1,8 @@
 using Main.Scripts.Board;
 using Main.Scripts.Core;
-using Main.Scripts.Game.EventHandler;
+using Main.Scripts.EventHandler;
 using Main.Scripts.Game.MatchableObject;
+using Main.Scripts.Util.Generics;
 using UnityEngine;
 
 namespace Main.Scripts.Input
@@ -14,6 +15,7 @@ namespace Main.Scripts.Input
         private Camera _cam;
 
         private BoardHandler _boardHandler;
+
 
         public override void Init()
         {
@@ -39,7 +41,7 @@ namespace Main.Scripts.Input
         private void InputHandlerOnOnObjectDown(MatchableObjectBase obj)
         {
             obj.OnSelect();
-            GameManager.Instance.EventHandler.Notify(GameEvent.OnTapItem, obj);
+            // GameManager.Instance.EventHandler.Notify(GameEvent.OnTapItem, obj);
         }
 
         private void InputHandlerOnOnObjectUp()
@@ -55,45 +57,49 @@ namespace Main.Scripts.Input
                 return;
             }
 
-            _inputHandler.SelectedObject.OnDeselect();
-            _inputHandler.SelectedObject = null;
+            if (_inputHandler.IsDragging)
+            {
+                var tilemap = _boardHandler.Tilemap;
+                var cellPos = tilemap.WorldToCell(_inputHandler.SelectedObject.transform.position);
+                if (_inputHandler.SelectedObject.CurrentTilePos == cellPos)
+                {
+                    _inputHandler.SelectedObject.OnDragEnd();
+                    _inputHandler.SelectedObject = null;
+                    return;
+                }
+                
+                _inputHandler.SelectedObject.OnDragEnd(true, cellPos);
+            }
+            else
+            {
+                _inputHandler.SelectedObject.OnDeselect();
+            }
             
-            GameManager.Instance.EventHandler.Notify(GameEvent.OnReleaseItem);
+            _inputHandler.SelectedObject = null;
+            // GameManager.Instance.EventHandler.Notify(GameEvent.OnReleaseItem);
         }
         
 
         private void DragObject()
         {
+            if (!_inputHandler.IsDragging)
+            {
+                return;
+            }
+            
             if (_inputHandler.SelectedObject == null)
             {
                 return;
             }
 
-            if (_inputHandler.SelectedObject.ObjectState != MatchableObjectBase.State.Dragging)
-            {
-                return;
-            }
-            
             var mousePos = _cam.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-            Vector2 movePos;
-            var cellPos = _boardHandler.Grid.WorldToCell(mousePos);
-
-            // Check if the tile exists in the Tilemap
-            if (_boardHandler.Tilemap.HasTile(cellPos))
-            {
-                movePos = _boardHandler.Tilemap.GetCellCenterWorld(cellPos);
-                _inputHandler.SelectedObject.OnDrag(movePos, true, cellPos);
-            }
-            else // if there's no available tile, then follow mouse/finger
-            { 
-                movePos = mousePos;
-                _inputHandler.SelectedObject.OnDrag(movePos);
-            }
+            _inputHandler.SelectedObject.OnDrag(mousePos);
         }
         
         private void Update()
         {
             _inputHandler.Update();
+            
             DragObject();
         }
     }

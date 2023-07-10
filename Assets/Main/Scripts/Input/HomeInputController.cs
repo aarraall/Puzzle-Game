@@ -1,7 +1,6 @@
 using System;
-using Main.Scripts.Board;
-using Main.Scripts.Game;
 using Main.Scripts.Game.HomePhaseController;
+using Main.Scripts.Util.Generics;
 using UnityEngine;
 
 namespace Main.Scripts.Input
@@ -12,24 +11,27 @@ namespace Main.Scripts.Input
         private IRaycastHandler<HomePhaseObjectBase> _inputHandler;
         private Camera _cam;
         private HomePhaseObjectBase _currentObject;
-        public override void Init()
-        {
-            base.Init();
-            _inputHandler = new RaycastObjectSelector<HomePhaseObjectBase>(Camera.main, _layerName);
-            _inputHandler.OnObjectDown += InputHandlerOnOnObjectDown;
-            _inputHandler.OnObjectUp += InputHandlerOnOnObjectUp;
-            _cam = Camera.main;
-        }
 
-        protected override void Dispose()
+        private void Start()
         {
-            base.Dispose();
+            _cam = Camera.main;
+            _inputHandler = new RaycastObjectSelector<HomePhaseObjectBase>(_cam, _layerName);
+            _inputHandler.OnObjectDown += InputHandlerOnOnObjectDown;
+            _inputHandler.OnObjectUp += InputHandlerOnOnObjectUp;        }
+
+        private void OnDestroy()
+        {
+            _cam = null;
+
+            if (_inputHandler == null)
+            {
+                return;
+            }
             
             _inputHandler.OnObjectDown -= InputHandlerOnOnObjectDown;
             _inputHandler.OnObjectUp -= InputHandlerOnOnObjectUp;
-            _inputHandler = null;
-            _cam = null;
-        }
+            _inputHandler = null;        }
+
         
         private void InputHandlerOnOnObjectDown(HomePhaseObjectBase obj)
         {
@@ -39,13 +41,18 @@ namespace Main.Scripts.Input
         
         private void InputHandlerOnOnObjectUp()
         {
+            if (_currentObject == null)
+            {
+                return;
+            }
+            
             _currentObject.OnRelease();
             _currentObject = null;
         }
 
         private void Update()
         {
-            _inputHandler.Update();
+            _inputHandler?.Update();
         }
     }
 }

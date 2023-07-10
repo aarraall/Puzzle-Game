@@ -91,13 +91,13 @@ namespace Main.Scripts.Util.Generics
     
         protected virtual void Dispose()
         {
-            _instance = null;
         }
 
         /// Make sure the instance isn't referenced anymore when the user quit, just in case.
         private void OnApplicationQuit()
         {
             Dispose();
+            _instance = null;
         }
     }
 }

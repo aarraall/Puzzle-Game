@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95cf67f5991cf4aae9ff9fe3a8392a20, type: 3}
-  m_Name: Config_Home
+  m_Script: {fileID: 11500000, guid: d75f46eb7e3a84597a116a6cd4460c9c, type: 3}
+  m_Name: Config_Level1
   m_EditorClassIdentifier: 
-  Data:
-  - PhaseIndex: 0
-    PhaseState: 0

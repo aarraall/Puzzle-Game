@@ -34,7 +34,7 @@ namespace Main.Scripts.Util.Generics
         {
             if (_subscriberMap.TryGetValue(eventType, out var eventToTrigger))
             {
-                eventToTrigger.Invoke(eventData);
+                eventToTrigger?.Invoke(eventData);
             }
         }
         

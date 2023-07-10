@@ -1,4 +1,6 @@
+using System;
 using DG.Tweening;
+using Main.Scripts.Core;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -21,10 +23,15 @@ namespace Main.Scripts.Game.HomePhaseController
         private Vector3 _initialInteractablePos, _initialDecorativePos, _initialPhaseDonePos;
         private Vector3 _initialInteractableScale, _initialDecorativeScale, _initialPhaseDoneScale;
 
-        public void Initialize(HomePhaseObjectBase.State state)
+        private void Awake()
+        {
+            Initialize();
+        }
+
+        public void Initialize()
         {
             Cache();
-            AlignInitialState(state);
+            AlignInitialState();
         }
         
         private void Cache()
@@ -42,23 +49,16 @@ namespace Main.Scripts.Game.HomePhaseController
             _initialPhaseDoneScale = _phaseDoneTransform.localScale;
         }
 
-        private void AlignInitialState(HomePhaseObjectBase.State state)
+        private void AlignInitialState()
         {
+            var state = GameManager.Instance.GameState;
             switch (state)
             {
-                case HomePhaseObjectBase.State.Disabled :
+                case GameManager.State.Home :
                     //show only interactable and decorative. but set interactable's color a bit darker
-                    
                     SetVisualState(false);
-                    
                     break;
-                case HomePhaseObjectBase.State.Enabled :
-                    //show only interactable and decorative.
-                    
-                    SetVisualState(false);
-                    
-                    break;
-                case HomePhaseObjectBase.State.EnabledAndReadyForAction :
+                case GameManager.State.Finish :
                     // scale up animation loop
                     
                     SetVisualState(false);
@@ -68,12 +68,6 @@ namespace Main.Scripts.Game.HomePhaseController
                         .Append(_interactableTransform.DOScale(_initialInteractableScale * 1.2f, 1f))
                         .Append(_decorativeTransform.DOScale(_initialDecorativeScale * 1.2f, 1f))
                         .SetLoops(-1, LoopType.Yoyo);
-                    
-                    break;
-                case HomePhaseObjectBase.State.Done :
-                    // Lift the obstacle, animate it etc.
-                    
-                    SetVisualState(true);
                     
                     break;
                 default:
@@ -89,50 +83,64 @@ namespace Main.Scripts.Game.HomePhaseController
         }
 
 
-        public void OnSelect(HomePhaseObjectBase.State state)
+        public void OnSelect()
         {
+            var state = GameManager.Instance.GameState;
+            
+            _selectionTween?.Kill();
+            _selectionTween = null;
+
             switch (state)
             {
-                case HomePhaseObjectBase.State.Disabled :
+                case GameManager.State.Home :
                     _selectionTween = _interactableTransform.DOScale(_initialInteractableScale * 1.2f, 1f)
                         .SetLoops(-1, LoopType.Yoyo);
                     break;
-                case HomePhaseObjectBase.State.Enabled :
-                    _selectionTween = _interactableTransform.DOScale(_initialInteractableScale * 1.2f, 1f);
-                    break;
-                case HomePhaseObjectBase.State.EnabledAndReadyForAction :
-                    // Lift the obstacle, animate it etc.
-                    break;
-                case HomePhaseObjectBase.State.Done :
-                    _selectionTween = _phaseDoneTransform.DOScale(_initialPhaseDoneScale * 1.2f, 1f)
-                        .SetLoops(-1, LoopType.Yoyo);
+                case GameManager.State.Finish :
+                    DOTween.Sequence()
+                        .Append(_interactableTransform.DOScale(.2f, 1))
+                        .Insert(0, _interactableTransform.DOMove(Vector3.right * 1.2f + Vector3.up * 3f, 1))
+                        .Append(_interactableTransform.DOScale(0, .35f))
+                        .Insert(1, _interactableTransform.DOMove(Vector3.right * 1.5f + Vector3.down * .7f, .35f));
+
                     break;
                 default:
                     break;
             }
         }
 
-        public void OnRelease(HomePhaseObjectBase.State state)
+        public void OnRelease()
         {
+            var state = GameManager.Instance.GameState;
+
             if (_selectionTween != null)
             {
                 _selectionTween.Kill();
                 _selectionTween = null;
             }
-            
+
             switch (state)
             {
-                case HomePhaseObjectBase.State.Disabled :
-                    _selectionTween = _interactableTransform.DOScale(_initialInteractableScale, .2f);
+                case GameManager.State.Home :
+                    _selectionTween = _interactableTransform.DOScale(_initialInteractableScale * 1.2f, 1f)
+                        .SetLoops(-1, LoopType.Yoyo);
                     break;
-                case HomePhaseObjectBase.State.Enabled :
-                    // carry user to level since goal's not accomplished yet
-                    break;
-                case HomePhaseObjectBase.State.EnabledAndReadyForAction :
-                    // Lift the obstacle, animate it etc.
-                    break;
-                case HomePhaseObjectBase.State.Done :
-                    _selectionTween = _phaseDoneTransform.DOScale(_initialPhaseDoneScale, .2f);
+                case GameManager.State.Finish :
+                    DOTween.Sequence()
+                        .Append(_interactableTransform.DOScale(0, 3))
+                        .Insert(0, _interactableTransform.DOMove(Vector3.right * 1.5f + Vector3.up * 3f, 3).SetEase(Ease.InCirc))
+                        .AppendCallback(() => _interactableTransform.gameObject.SetActive(false)); 
+                    
+                    DOTween.Sequence()
+                        .Append(_decorativeTransform.DOScale(0, 3))
+                        .Insert(0, _decorativeTransform.DOMove(Vector3.left * 1.5f + Vector3.up * 3f, 3).SetEase(Ease.InCirc))
+                        .AppendCallback(() => _decorativeTransform.gameObject.SetActive(false));
+
+                    DOTween.Sequence()
+                        .AppendCallback(() => _phaseDoneTransform.gameObject.SetActive(true))
+                        .AppendCallback(() => _phaseDoneTransform.localScale = Vector3.zero)
+                        .Append(_phaseDoneSpriteRenderer.DOFade(1, 2f))
+                        .Insert(1, _phaseDoneTransform.DOScale(.2f, 2));
                     break;
                 default:
                     break;

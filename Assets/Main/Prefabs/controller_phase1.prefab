@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ebdc6cd57a945ad9001ae337e668ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HomePhaseConfig: {fileID: 11400000, guid: 26248410d279a440a83e0147987f0f81, type: 2}
+  View: {fileID: 588487493817272000}
 --- !u!50 &4564865788297473148
 Rigidbody2D:
   serializedVersion: 4
@@ -244,8 +244,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4564865789410232312}
   m_LocalRotation: {x: -0, y: -0, z: -0.70710576, w: 0.70710784}
-  m_LocalPosition: {x: -0.38, y: -0.09, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0.47, y: 0.06, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4564865788788727633}
@@ -313,7 +313,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5848026676114012710}
   - component: {fileID: 920013264650776354}
-  - component: {fileID: 3858894431756672014}
   m_Layer: 6
   m_Name: sprite_phaseDoneDecorative
   m_TagString: Untagged
@@ -388,29 +387,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &3858894431756672014
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6816497547318528347}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 7.3, y: 16.2}
-    newSize: {x: 7.3, y: 16.2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 7, y: 13}
-  m_EdgeRadius: 0
