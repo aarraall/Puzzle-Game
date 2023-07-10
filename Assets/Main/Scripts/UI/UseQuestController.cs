@@ -55,9 +55,11 @@ namespace Main.Scripts.UI
             }
 
             TargetCollectAmount--;
-            CollectAmountText.text = TargetCollectAmount.ToString();
+            
+            if (TargetCollectAmount >= 0)
+                CollectAmountText.text = TargetCollectAmount.ToString();
 
-            if (TargetCollectAmount > 0)
+            if (TargetCollectAmount is not 0)
             {
                 return;
             }

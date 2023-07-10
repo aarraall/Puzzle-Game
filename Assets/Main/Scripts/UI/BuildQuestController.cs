@@ -21,7 +21,8 @@ namespace Main.Scripts.UI
             public MatchableObjectBase TargetObjectSample;
             public bool IsDone;
 
-            public BuildQuestDataContainer(Image image, Image successImage, int targetAmount, MatchableObjectBase targetObjectSample, TMP_Text targetAmountText)
+            public BuildQuestDataContainer(Image image, Image successImage, int targetAmount,
+                MatchableObjectBase targetObjectSample, TMP_Text targetAmountText)
             {
                 Image = image;
                 SuccessImage = successImage;
@@ -30,13 +31,13 @@ namespace Main.Scripts.UI
                 TargetAmountText = targetAmountText;
             }
         }
-        
+
         public Image[] Images;
         public Image[] SuccessImages;
         public TMP_Text[] Texts;
 
         private readonly List<BuildQuestDataContainer> _dataContainers = new();
-        
+
         protected override void SetupVisuals()
         {
             for (int i = 0; i < Images.Length; i++)
@@ -47,11 +48,12 @@ namespace Main.Scripts.UI
                 image.sprite = sprite;
 
                 Texts[i].text = QuestData.CollectAmount.ToString();
-                
-                _dataContainers.Add(new BuildQuestDataContainer(image, successImage, QuestData.CollectAmount, QuestData.TargetObjectSample[i], Texts[i]));
+
+                _dataContainers.Add(new BuildQuestDataContainer(image, successImage, QuestData.CollectAmount,
+                    QuestData.TargetObjectSample[i], Texts[i]));
             }
         }
-        
+
         public override void StartQuest()
         {
             base.StartQuest();
@@ -80,12 +82,15 @@ namespace Main.Scripts.UI
                 }
 
                 container.TargetAmount--;
-                container.TargetAmountText.text = container.TargetAmount.ToString();
 
-                if (container.TargetAmount > 0)
+                if (container.TargetAmount >= 0)
+                    container.TargetAmountText.text = container.TargetAmount.ToString();
+
+                if (container.TargetAmount is not 0)
                 {
-                    continue;
+                    return;
                 }
+
 
                 container.IsDone = true;
                 container.SuccessImage.gameObject.SetActive(true);
@@ -95,7 +100,7 @@ namespace Main.Scripts.UI
             {
                 return;
             }
-            
+
             GameManager.EventHandler.Notify(QuestData.OnDoneEvent);
             OnQuestEnd();
         }
