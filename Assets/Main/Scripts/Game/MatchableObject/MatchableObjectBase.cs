@@ -50,12 +50,12 @@ namespace Main.Scripts.Game.MatchableObject
         protected BoardHandler _board;
         public SpriteRenderer SpriteRenderer => _renderer;
 
-        private void Awake()
+        protected void Awake()
         {
             Cache();
         }
         
-        private void Cache()
+        protected void Cache()
         {
             _transform = transform;
             _initialScale = _view.localScale;
@@ -80,7 +80,7 @@ namespace Main.Scripts.Game.MatchableObject
                 _selectionTween = null;
             }
 
-            _renderer.sortingOrder = 5;
+            _renderer.sortingOrder = 10;
             
             _selectionTween = _view.DOScale(_initialScale * 1.5f, 1f);
         }
@@ -176,8 +176,8 @@ namespace Main.Scripts.Game.MatchableObject
             _view.transform.localScale = Vector3.zero;
             
             var whoopSequence = DOTween.Sequence();
-            whoopSequence.Append(transform.DOMove(centerTilePos, 1.5f).SetEase(Ease.InOutBack))
-                .Insert(0,_view.DOScale(_initialScale, 1.5f).SetEase(Ease.InOutBack))
+            whoopSequence.Append(transform.DOMove(centerTilePos, .25f).SetEase(Ease.InOutBack))
+                .Insert(0,_view.DOScale(_initialScale, .25f).SetEase(Ease.InOutBack))
                 .AppendCallback(() => ObjectState = State.Idle)
                 .AppendCallback(() => onComplete?.Invoke());
         }
@@ -191,6 +191,11 @@ namespace Main.Scripts.Game.MatchableObject
         public bool Equals(MatchableObjectBase other)
         {
             return ObjectType == other.ObjectType && ChainPosition == other.ChainPosition;
+        }
+
+        public virtual bool CanMerge(MatchableObjectBase other)
+        {
+            return Equals(other);
         }
 
         public override int GetHashCode()

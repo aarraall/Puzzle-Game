@@ -1,9 +1,6 @@
 using System;
 using DG.Tweening;
-using Main.Scripts.Core;
-using Main.Scripts.EventHandler;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 namespace Main.Scripts.Game.MatchableObject
@@ -24,14 +21,15 @@ namespace Main.Scripts.Game.MatchableObject
             viewTransform.localScale = Vector3.zero; 
             
             var whoopSequence = DOTween.Sequence();
-            whoopSequence.Append(transform.DOMove(centerTilePos, 2).SetEase(Ease.InOutBack))
-                .Insert(0,_view.DOScale(_initialScale, 2).SetEase(Ease.InOutBack))
+            whoopSequence.Append(transform.DOMove(centerTilePos, 1).SetEase(Ease.InOutBack))
+                .Insert(0,_view.DOScale(_initialScale, 1).SetEase(Ease.InOutBack))
                 .AppendCallback(() => ObjectState = State.Idle)
                 .AppendCallback(() => onComplete?.Invoke());
         }
 
         public override void OnSelect()
         {
+            _renderer.sortingOrder = 10;
         }
 
         public override void OnDrag(Vector2 movePos)
@@ -41,6 +39,7 @@ namespace Main.Scripts.Game.MatchableObject
 
         public override void OnDeselect()
         {
+            _renderer.sortingOrder = _initialSortOrder;
             if (ChargeAmount <= 0)
             {
                 return;
@@ -48,8 +47,8 @@ namespace Main.Scripts.Game.MatchableObject
             
             //shake and create items
             _view.DOKill();
-            DOTween.Sequence().Append(_view.transform.DOScale(_initialScale * 1.2f, 0.25f))
-                .Append(_view.transform.DOScale(_initialScale, 0.25f))
+            DOTween.Sequence().Append(_view.transform.DOScale(_initialScale * 1.2f, .125f))
+                .Append(_view.transform.DOScale(_initialScale, 0.125f))
                 .AppendCallback(CreateMatchableObjects);
         }
 
@@ -71,6 +70,12 @@ namespace Main.Scripts.Game.MatchableObject
             {
                 Destroy(gameObject);
             }
+        }
+
+        public override bool CanMerge(MatchableObjectBase other)
+        {
+            //boosters shouldn't be merged
+            return false;
         }
 
         protected override void OnDestroy()

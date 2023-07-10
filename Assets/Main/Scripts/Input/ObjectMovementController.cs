@@ -74,9 +74,6 @@ namespace Main.Scripts.Input
             {
                 _inputHandler.SelectedObject.OnDeselect();
             }
-            
-            _inputHandler.SelectedObject = null;
-            // GameManager.Instance.EventHandler.Notify(GameEvent.OnReleaseItem);
         }
         
 

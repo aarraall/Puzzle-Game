@@ -122,7 +122,7 @@ namespace Main.Scripts.Board
                 return;
             }
 
-            if (residentObject.Equals(movingObject))
+            if (residentObject.CanMerge(movingObject))
             {
                 //merge them
                 StartMerge(movingObject, residentObject);
@@ -243,9 +243,9 @@ namespace Main.Scripts.Board
             GameManager.Instance.EventHandler.Notify(GameEvent.OnCreateItem, objectInstance);
         }
 
-        public void CreateNewBooster(BoosterObject objectPrefab, Vector2 initialMousePos)
+        public void CreateNewBooster(BoosterObject objectPrefab, Vector2 startPos)
         {
-            var worldPos = _cam.ScreenToWorldPoint(initialMousePos);
+            var worldPos = _cam.ScreenToWorldPoint(startPos);
             if (!GetFirstEmptyTile(out var availableTile))
             {
                 // no available tile 
