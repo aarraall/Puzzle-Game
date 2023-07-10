@@ -10,9 +10,9 @@ namespace Main.Scripts.Quest_System
     {
         public enum Type
         {
-            Collect,
+            Merge,
             Use,
-            Build
+            Create
         }
         public enum State
         {

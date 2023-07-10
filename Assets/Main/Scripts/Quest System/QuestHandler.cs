@@ -5,6 +5,7 @@ using Main.Scripts.EventHandler;
 using Main.Scripts.UI;
 using Main.Scripts.Util.Generics;
 using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ namespace Main.Scripts.Quest_System
 {
     public class QuestHandler : MonoSingleton<QuestHandler>
     {
+        [SerializeField] private TMP_Text _questTypeText;
+        
         public QuestConfig QuestConfig;
 
         public LayoutGroup LayoutGroup;
@@ -32,13 +35,13 @@ namespace Main.Scripts.Quest_System
             {
                 switch (questConfigQuest.QuestType)
                 {
-                    case QuestData.Type.Collect:
+                    case QuestData.Type.Merge:
                         InitializeCollectQuest(questConfigQuest);
                         break;
                     case QuestData.Type.Use:
                         InitializeUseQuest(questConfigQuest);
                         break;
-                    case QuestData.Type.Build:
+                    case QuestData.Type.Create:
                         InitializeBuildQuest(questConfigQuest);
                         break;
                 }
@@ -96,6 +99,7 @@ namespace Main.Scripts.Quest_System
             }
 
             CurrentQuestController = nextQuest;
+            _questTypeText.text = CurrentQuestController.QuestType.ToString();
 
             //send event to the game and start event
             nextQuest.StartQuest();
@@ -135,7 +139,7 @@ namespace Main.Scripts.Quest_System
 
             switch (CurrentQuestController.QuestType)
             {
-                case QuestData.Type.Collect:
+                case QuestData.Type.Merge:
                     var collectController = CurrentQuestController as CollectibleQuestController;
                     GameManager.Instance.EventHandler.Notify(collectController.QuestData.OnDoneEvent);
                     break;
@@ -143,7 +147,7 @@ namespace Main.Scripts.Quest_System
                     var useController = CurrentQuestController as UseQuestController;
                     GameManager.Instance.EventHandler.Notify(useController.QuestData.OnDoneEvent);
                     break; 
-                case QuestData.Type.Build :
+                case QuestData.Type.Create :
                     var buildController = CurrentQuestController as BuildQuestController;
                     GameManager.Instance.EventHandler.Notify(buildController.QuestData.OnDoneEvent);
                     break;
