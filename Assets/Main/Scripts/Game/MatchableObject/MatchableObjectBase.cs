@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using Main.Scripts.Board;
 using Main.Scripts.Config;
+using Main.Scripts.Core;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -78,6 +79,11 @@ namespace Main.Scripts.Game.MatchableObject
             {
                 _selectionTween.Kill();
                 _selectionTween = null;
+            }
+
+            if (ObjectState == State.Whooping)
+            {
+                return;
             }
 
             _renderer.sortingOrder = 10;
@@ -173,6 +179,7 @@ namespace Main.Scripts.Game.MatchableObject
             
             transform.DOKill();
             _view.DOKill();
+            _initialScale = _view.transform.localScale;
             _view.transform.localScale = Vector3.zero;
             
             var whoopSequence = DOTween.Sequence();
