@@ -248,7 +248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 142527050}
-  - component: {fileID: 142527051}
+  - component: {fileID: 142527052}
   m_Layer: 0
   m_Name: CameraController
   m_TagString: Untagged
@@ -271,7 +271,7 @@ Transform:
   m_Father: {fileID: 1568268082}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &142527051
+--- !u!114 &142527052
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,21 +280,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 142527049}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88115a2e3490346fa93aa638b75cb8b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 11fb2e719fa9a4b4d9767ec7cd675867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 519420031}
-  CameraTransform: {fileID: 519420032}
-  movementSpeed: 0.25
-  zoomSpeed: 5
-  maxZoom: 10
-  minZoom: 2
-  zoomDampening: 10
-  maxPan: 5
-  panDampening: 5
-  bufferTime: 0.2
-  maxMouseDeltaMagnitude: 5
-  decelerationDuration: 0.01
+  zoomSpeed: 0.5
+  zoomSmoothTime: 0.2
+  panSpeed: 0.1
+  velocityDamping: 0.1
+  minZoom: 3.5
+  maxZoom: 8
+  minX: -10
+  maxX: 10
+  minY: -6
+  maxY: 6
+  stopThreshold: 0.05
 --- !u!1 &242851721
 GameObject:
   m_ObjectHideFlags: 0

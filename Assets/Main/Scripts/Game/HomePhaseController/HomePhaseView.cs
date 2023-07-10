@@ -22,6 +22,8 @@ namespace Main.Scripts.Game.HomePhaseController
         
         private Vector3 _initialInteractablePos, _initialDecorativePos, _initialPhaseDonePos;
         private Vector3 _initialInteractableScale, _initialDecorativeScale, _initialPhaseDoneScale;
+        
+        Sequence _loopSequence;
 
         private void Awake()
         {
@@ -52,21 +54,32 @@ namespace Main.Scripts.Game.HomePhaseController
         private void AlignInitialState()
         {
             var state = GameManager.Instance.GameState;
+
             switch (state)
             {
                 case GameManager.State.Home :
-                    //show only interactable and decorative. but set interactable's color a bit darker
                     SetVisualState(false);
-                    break;
+
+                    _loopSequence.Kill();
+                    _loopSequence = null;
+                    _loopSequence = DOTween.Sequence();
+                    _loopSequence
+                        .Append(_interactableTransform.DOScale(_initialInteractableScale * 1.1f, 2))
+                        .Append(_interactableTransform.DOScale(_initialInteractableScale, 2))
+                        .AppendInterval(1)
+                        .SetLoops(-1, LoopType.Yoyo);
+                    break; 
                 case GameManager.State.Finish :
-                    // scale up animation loop
                     
                     SetVisualState(false);
 
-                    _onReadySequence = DOTween.Sequence();
-                    _onReadySequence
-                        .Append(_interactableTransform.DOScale(_initialInteractableScale * 1.2f, 1f))
-                        .Append(_decorativeTransform.DOScale(_initialDecorativeScale * 1.2f, 1f))
+                    _loopSequence.Kill();
+                    _loopSequence = null;
+                    _loopSequence = DOTween.Sequence();
+                    _loopSequence
+                        .Append(_interactableTransform.DOScale(_initialInteractableScale * 1.1f, .5f))
+                        .Append(_interactableTransform.DOScale(_initialInteractableScale, .5f))
+                        .AppendInterval(1)
                         .SetLoops(-1, LoopType.Yoyo);
                     
                     break;
@@ -89,27 +102,9 @@ namespace Main.Scripts.Game.HomePhaseController
             
             _selectionTween?.Kill();
             _selectionTween = null;
-
-            switch (state)
-            {
-                case GameManager.State.Home :
-                    _selectionTween = _interactableTransform.DOScale(_initialInteractableScale * 1.2f, 1f)
-                        .SetLoops(-1, LoopType.Yoyo);
-                    break;
-                case GameManager.State.Finish :
-                    DOTween.Sequence()
-                        .Append(_interactableTransform.DOScale(.2f, 1))
-                        .Insert(0, _interactableTransform.DOMove(Vector3.right * 1.2f + Vector3.up * 3f, 1))
-                        .Append(_interactableTransform.DOScale(0, .35f))
-                        .Insert(1, _interactableTransform.DOMove(Vector3.right * 1.5f + Vector3.down * .7f, .35f));
-
-                    break;
-                default:
-                    break;
-            }
         }
 
-        public void OnRelease()
+        public void OnRelease(Action onComplete = null)
         {
             var state = GameManager.Instance.GameState;
 
@@ -122,8 +117,10 @@ namespace Main.Scripts.Game.HomePhaseController
             switch (state)
             {
                 case GameManager.State.Home :
-                    _selectionTween = _interactableTransform.DOScale(_initialInteractableScale * 1.2f, 1f)
-                        .SetLoops(-1, LoopType.Yoyo);
+                    DOTween.Sequence()
+                        .Append(_interactableTransform.DOScale(_initialInteractableScale * 1.2f, .2f))
+                        .Append(_interactableTransform.DOScale(_initialInteractableScale, .2f))
+                        .OnComplete(() => onComplete?.Invoke());
                     break;
                 case GameManager.State.Finish :
                     DOTween.Sequence()
