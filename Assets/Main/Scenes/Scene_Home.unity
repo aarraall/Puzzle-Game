@@ -285,7 +285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoomSpeed: 0.5
   zoomSmoothTime: 0.2
-  panSpeed: 0.1
+  panSpeed: 0.00625
   velocityDamping: 0.1
   minZoom: 3.5
   maxZoom: 8
