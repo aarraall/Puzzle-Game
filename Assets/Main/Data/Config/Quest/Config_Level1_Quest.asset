@@ -45,13 +45,13 @@ MonoBehaviour:
     OnDoneEvent: 12
     QuestState: 1
     QuestType: 0
-    CollectAmount: 4
+    CollectAmount: 3
     TargetObjectSample: {fileID: 3873253041750902376, guid: e6208b51988f64456a41c021d402594a, type: 3}
     controllerPrefab: {fileID: 8117448345395941184, guid: 31f213ffc1251414483610554f46b153, type: 3}
   UseQuests:
   - QuestID: 7
     OnDoneEvent: 13
-    QuestState: 0
+    QuestState: 1
     QuestType: 1
     CollectAmount: 5
     TargetObjectSample: {fileID: 2519624177411868112, guid: eda503e6e4a38430b9c6935ed45156be, type: 3}
@@ -59,7 +59,7 @@ MonoBehaviour:
   BuildQuests:
   - QuestID: 8
     OnDoneEvent: 14
-    QuestState: 0
+    QuestState: 1
     QuestType: 2
     CollectAmount: 1
     TargetObjectSample:
@@ -69,17 +69,17 @@ MonoBehaviour:
     - {fileID: 3873253041750902376, guid: 61e013269b3ff49bcb93c3cc7d067ba6, type: 3}
     controllerPrefab: {fileID: 554704809073041567, guid: 6c039cad9b831452d939f2b35cf06b5c, type: 3}
   _quests:
-  - rid: 1402758259843792910
-  - rid: 1402758259843792911
-  - rid: 1402758259843792912
-  - rid: 1402758259843792913
-  - rid: 1402758259843792914
-  - rid: 1402758259843792915
-  - rid: 1402758259843792916
+  - rid: 1402758259843792924
+  - rid: 1402758259843792925
+  - rid: 1402758259843792926
+  - rid: 1402758259843792927
+  - rid: 1402758259843792928
+  - rid: 1402758259843792929
+  - rid: 1402758259843792930
   references:
     version: 2
     RefIds:
-    - rid: 1402758259843792910
+    - rid: 1402758259843792924
       type: {class: CollectionQuestData, ns: Main.Scripts.Quest_System, asm: Assembly-CSharp}
       data:
         QuestID: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
         CollectAmount: 2
         TargetObjectSample: {fileID: 3873253041750902376, guid: 423549dedb6244abcbf1fe45438c3052, type: 3}
         controllerPrefab: {fileID: 8117448345395941184, guid: 31f213ffc1251414483610554f46b153, type: 3}
-    - rid: 1402758259843792911
+    - rid: 1402758259843792925
       type: {class: CollectionQuestData, ns: Main.Scripts.Quest_System, asm: Assembly-CSharp}
       data:
         QuestID: 1
@@ -99,7 +99,7 @@ MonoBehaviour:
         CollectAmount: 3
         TargetObjectSample: {fileID: 3873253041750902376, guid: dab3ce53b84fe4795a47b26d86a443f9, type: 3}
         controllerPrefab: {fileID: 8117448345395941184, guid: 31f213ffc1251414483610554f46b153, type: 3}
-    - rid: 1402758259843792912
+    - rid: 1402758259843792926
       type: {class: CollectionQuestData, ns: Main.Scripts.Quest_System, asm: Assembly-CSharp}
       data:
         QuestID: 2
@@ -109,7 +109,7 @@ MonoBehaviour:
         CollectAmount: 3
         TargetObjectSample: {fileID: 3873253041750902376, guid: 9ed5c25194c0e47a8aa4fef820c81b8a, type: 3}
         controllerPrefab: {fileID: 8117448345395941184, guid: 31f213ffc1251414483610554f46b153, type: 3}
-    - rid: 1402758259843792913
+    - rid: 1402758259843792927
       type: {class: CollectionQuestData, ns: Main.Scripts.Quest_System, asm: Assembly-CSharp}
       data:
         QuestID: 3
@@ -119,32 +119,32 @@ MonoBehaviour:
         CollectAmount: 3
         TargetObjectSample: {fileID: 3873253041750902376, guid: b78348b417e7440b498b7c7ccd123e20, type: 3}
         controllerPrefab: {fileID: 8117448345395941184, guid: 31f213ffc1251414483610554f46b153, type: 3}
-    - rid: 1402758259843792914
+    - rid: 1402758259843792928
       type: {class: CollectionQuestData, ns: Main.Scripts.Quest_System, asm: Assembly-CSharp}
       data:
         QuestID: 4
         OnDoneEvent: 12
         QuestState: 1
         QuestType: 0
-        CollectAmount: 4
+        CollectAmount: 3
         TargetObjectSample: {fileID: 3873253041750902376, guid: e6208b51988f64456a41c021d402594a, type: 3}
         controllerPrefab: {fileID: 8117448345395941184, guid: 31f213ffc1251414483610554f46b153, type: 3}
-    - rid: 1402758259843792915
+    - rid: 1402758259843792929
       type: {class: UseQuestData, ns: Main.Scripts.Quest_System, asm: Assembly-CSharp}
       data:
         QuestID: 7
         OnDoneEvent: 13
-        QuestState: 0
+        QuestState: 1
         QuestType: 1
         CollectAmount: 5
         TargetObjectSample: {fileID: 2519624177411868112, guid: eda503e6e4a38430b9c6935ed45156be, type: 3}
         controllerPrefab: {fileID: 1078119050792581961, guid: 4f35786cf2eb644a99ea914839c7bef9, type: 3}
-    - rid: 1402758259843792916
+    - rid: 1402758259843792930
       type: {class: BuildQuestData, ns: Main.Scripts.Quest_System, asm: Assembly-CSharp}
       data:
         QuestID: 8
         OnDoneEvent: 14
-        QuestState: 0
+        QuestState: 1
         QuestType: 2
         CollectAmount: 1
         TargetObjectSample:
